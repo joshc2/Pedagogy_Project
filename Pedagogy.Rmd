@@ -1,0 +1,23 @@
+---
+title: "Pedagogy"
+author: "Joshua Cabrera"
+date: "2024-02-14"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+
+library(tidyverse)
+data <- read_csv('ClassAssessment.txt')
+```
+
+
+```{r }
+
+data
+
+```
+
+
+```{r}
+```
