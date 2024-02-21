@@ -71,6 +71,23 @@ ggplot(data = data, mapping = aes(x = NStudents, y = Final)) +
        y = "Final")
 
 
+ggplot(data, aes(x = Semester, y = Final, fill = Semester)) +
+  geom_boxplot() +
+  labs(x = "Semester", y = "Final", title = "Box Plot Example") +
+  theme_minimal()
+```
+
+```{r}
+data$id <- 1:30
+
+data_long <- data %>%
+  pivot_longer(
+    cols = c(Exam1, Exam2, Exam3, Final) )
+
+head(data_long)
+ggplot(data_long, aes(x = name, y = value, group = id, colour = id))+
+  geom_point()+
+  geom_line()
 ```
 
 
@@ -99,19 +116,6 @@ summary(anova_result)
 
 ```
 
-```{r}
-
-Pedagogy_lm <- lm(Final ~ Quiz, data = data)
-
-bptest(Pedagogy_lm)
-
-
-# FoodExpenses_gls <- gls(model=EatingOut~Income, data=data, weights=varExp(form=~Income), method="ML")
-# Do we need to standardize and have then have var = 1
-?gls
-
-
-```
 
 
 
@@ -134,9 +138,14 @@ avPlots(Pedagogy_lm)
 
 ### Normal
 ```{r, message = FALSE, out.width= "50%"}
-standard <- resid(object=web.gls, type="pearson")
+standard <- resid(object=Pedagogy_gls, type="pearson")
 ggplot()+geom_histogram(mapping=aes(x=standard))
 ```
+
+- It does appear approximately normal - ish
+
+
+
 
 # GLS model
 ```{r}
@@ -145,9 +154,6 @@ summary(Pedagogy_gls)
 ```
 
 
-```{r}
 
-
-```
 
 
