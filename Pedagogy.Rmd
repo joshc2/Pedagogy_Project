@@ -75,6 +75,19 @@ ggplot(data, aes(x = Semester, y = Final, fill = Semester)) +
   theme_minimal()
 ```
 
+```{r}
+data$id <- 1:30
+
+data_long <- data %>%
+  pivot_longer(
+    cols = c(Exam1, Exam2, Exam3, Final) )
+
+head(data_long)
+ggplot(data_long, aes(x = name, y = value, group = id, colour = id))+
+  geom_point()+
+  geom_line()
+```
+
 
 ```{r}
 # summary(data)
@@ -123,9 +136,14 @@ avPlots(Pedagogy_lm)
 
 ### Normal
 ```{r, message = FALSE, out.width= "50%"}
-standard <- resid(object=web.gls, type="pearson")
+standard <- resid(object=Pedagogy_gls, type="pearson")
 ggplot()+geom_histogram(mapping=aes(x=standard))
 ```
+
+- It does appear approximately normal - ish
+
+
+
 
 # GLS model
 ```{r}
