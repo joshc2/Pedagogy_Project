@@ -17,6 +17,9 @@ library(multcomp) #generalized linear hypothesis test
 library(nlme)
 library(tidyverse)
 data <- read_delim('ClassAssessment.txt')
+data$Semester <- as.factor(data$Semester)
+
+
 ```
 
 
@@ -24,7 +27,6 @@ data <- read_delim('ClassAssessment.txt')
 data
 data_copy <- data
 
-data$Semester <- as.factor(data$Semester)
 
 ggplot(data = data, mapping = aes(x = Exam1, y = Final)) +
   geom_point()+
@@ -154,9 +156,16 @@ ggplot()+geom_histogram(mapping=aes(x=standard))
 
 # GLS model
 ```{r}
-Pedagogy_gls <- gls(model= Final ~. , data= data, weights=varFixed(form=~ .), method="ML")
+Pedagogy_gls <- gls(model= Final ~. , data= data, weights=varFixed(~ .), method="ML")
 summary(Pedagogy_gls)
+
 ```
+
+
+```{r}
+?varFixed
+```
+
 
 
 
