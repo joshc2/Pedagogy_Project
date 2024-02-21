@@ -69,9 +69,9 @@ ggplot(data = data, mapping = aes(x = NStudents, y = Final)) +
        y = "Final")
 
 
-ggplot(data, aes(x = Semester, y = Final, fill = Semester)) +
-  geom_boxplot() +
-  labs(x = "Semester", y = "Final", title = "Box Plot Example") +
+ggplot(data, aes(x = factor(Semester), y = Final, fill = factor(Semester))) +
+  geom_boxplot(position = "dodge", alpha = 0.8) +
+  labs(x = "Semester", y = "Final Score", title = "Side-by-Side Box Plots of Final Scores by Semester") +
   theme_minimal()
 ```
 
@@ -90,7 +90,7 @@ anova(Pedagogy_lm_reduced,Pedagogy_lm)
 data_copy$fittedVals <- Pedagogy_lm$fitted.values
 data_copy$Residuals <- Pedagogy_lm$residuals
 
-write.csv(data_copy, file = "ClassAssessment_copy.txt", row.names =T)
+write.csv(data_copy, file = "ClassAssessment_copy.txt", row.names =F)
 
 
 anova_result <- aov(lm(Final ~ Semester, data = data))
@@ -108,5 +108,12 @@ plot(data$Exam1, data$Final, type = "p", pch = 16, col = "blue", xlab = "X", yla
 
 # Add a line
 abline( lm(Final ~ Exam1, data = data), col = "red")
+```
+
+
+
+```{r}
+
+
 ```
 
