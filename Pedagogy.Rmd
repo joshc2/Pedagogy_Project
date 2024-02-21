@@ -69,9 +69,9 @@ ggplot(data = data, mapping = aes(x = NStudents, y = Final)) +
        y = "Final")
 
 
-ggplot(data, aes(x = factor(Semester), y = Final, fill = factor(Semester))) +
-  geom_boxplot(position = "dodge", alpha = 0.8) +
-  labs(x = "Semester", y = "Final Score", title = "Side-by-Side Box Plots of Final Scores by Semester") +
+ggplot(data, aes(x = Semester, y = Final, fill = Semester)) +
+  geom_boxplot() +
+  labs(x = "Semester", y = "Final", title = "Box Plot Example") +
   theme_minimal()
 ```
 
@@ -90,7 +90,7 @@ anova(Pedagogy_lm_reduced,Pedagogy_lm)
 data_copy$fittedVals <- Pedagogy_lm$fitted.values
 data_copy$Residuals <- Pedagogy_lm$residuals
 
-write.csv(data_copy, file = "ClassAssessment_copy.txt", row.names =F)
+write.csv(data_copy, file = "ClassAssessment_copy.txt", row.names =T)
 
 
 anova_result <- aov(lm(Final ~ Semester, data = data))
@@ -103,17 +103,33 @@ summary(anova_result)
 
 
 
+
 ```{r}
 plot(data$Exam1, data$Final, type = "p", pch = 16, col = "blue", xlab = "X", ylab = "Y", main = "Scatter Plot with Line")
 
 # Add a line
 abline( lm(Final ~ Exam1, data = data), col = "red")
 ```
+# Section 3: Assumptions
 
+### Linear
+```{r, message = FALSE, out.width= "70%"}
+library(car)
+avPlots(Pedagogy_lm)
+```
+* Looking at quantitative variables- approximately linear
 
+### Independent
 
+### Normal
+```{r, message = FALSE, out.width= "50%"}
+standard <- resid(object=web.gls, type="pearson")
+ggplot()+geom_histogram(mapping=aes(x=standard))
+```
+
+# GLS model
 ```{r}
-
-
+Pedagogy_gls <- gls(model= Final ~. , data= data, weights=varExp(form=~ .), method="ML")
+summary(Pedagogy_gls)
 ```
 
