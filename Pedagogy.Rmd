@@ -24,6 +24,8 @@ data <- read_delim('ClassAssessment.txt')
 data
 data_copy <- data
 
+data$Semester <- as.factor(data$Semester)
+
 ggplot(data = data, mapping = aes(x = Exam1, y = Final)) +
   geom_point()+
   # geom_smooth( se = FALSE)+
