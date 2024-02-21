@@ -69,10 +69,6 @@ ggplot(data = data, mapping = aes(x = NStudents, y = Final)) +
        y = "Final")
 
 
-ggplot(data, aes(x = Semester, y = Final, fill = Semester)) +
-  geom_boxplot() +
-  labs(x = "Semester", y = "Final", title = "Box Plot Example") +
-  theme_minimal()
 ```
 
 ```{r}
@@ -114,6 +110,19 @@ summary(anova_result)
 
 ```
 
+```{r}
+
+Pedagogy_lm <- lm(Final ~ Quiz, data = data)
+
+bptest(Pedagogy_lm)
+
+
+# FoodExpenses_gls <- gls(model=EatingOut~Income, data=data, weights=varExp(form=~Income), method="ML")
+# Do we need to standardize and have then have var = 1
+?gls
+
+
+```
 
 
 
@@ -150,4 +159,11 @@ ggplot()+geom_histogram(mapping=aes(x=standard))
 Pedagogy_gls <- gls(model= Final ~. , data= data, weights=varExp(form=~ .), method="ML")
 summary(Pedagogy_gls)
 ```
+
+
+```{r}
+
+
+```
+
 
