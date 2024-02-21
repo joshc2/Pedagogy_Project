@@ -26,7 +26,7 @@ data_copy <- data
 
 ggplot(data = data, mapping = aes(x = Exam1, y = Final)) +
   geom_point()+
-  geom_smooth( se = FALSE)+
+  # geom_smooth( se = FALSE)+
   labs(title = "Boxplot of Exam1 by Final",
        x = "Exam1",
        y = "Final")
@@ -34,28 +34,28 @@ ggplot(data = data, mapping = aes(x = Exam1, y = Final)) +
 
 ggplot(data = data, mapping = aes(x = Exam2, y = Final)) +
   geom_point()+
-  geom_smooth( se = FALSE)+
+  # geom_smooth( se = FALSE)+
   labs(title = "Boxplot of Exam2 by Final",
        x = "Exam2",
        y = "Final")
 
 ggplot(data = data, mapping = aes(x = Exam3, y = Final)) +
   geom_point()+
-  geom_smooth( se = FALSE)+
+  # geom_smooth( se = FALSE)+
   labs(title = "Boxplot of Exam3 by Final",
        x = "Exam3",
        y = "Final")
 
 ggplot(data = data, mapping = aes(x = HW, y = Final)) +
   geom_point()+
-  geom_smooth( se = FALSE)+
+  # geom_smooth( se = FALSE)+
   labs(title = "Boxplot of HW by Final",
        x = "HW",
        y = "Final")
 
 ggplot(data = data, mapping = aes(x = Quiz, y = Final)) +
   geom_point()+
-  geom_smooth( se = FALSE)+
+  # geom_smooth( se = FALSE)+
   labs(title = "Boxplot of Quiz by Final",
        x = "Quiz",
        y = "Final")
@@ -63,15 +63,21 @@ ggplot(data = data, mapping = aes(x = Quiz, y = Final)) +
 
 ggplot(data = data, mapping = aes(x = NStudents, y = Final)) +
   geom_point()+
-  geom_smooth( se = FALSE)+
+  # geom_smooth( se = FALSE)+
   labs(title = "Boxplot of NStudents by Final",
        x = "NStudents",
        y = "Final")
+
+
+ggplot(data, aes(x = Semester, y = Final, fill = Semester)) +
+  geom_boxplot() +
+  labs(x = "Semester", y = "Final", title = "Box Plot Example") +
+  theme_minimal()
 ```
 
 
 ```{r}
-summary(data)
+# summary(data)
 
 #Checking if our model should use NStudents
 Pedagogy_lm <- lm(Final ~ ., data = data)
@@ -87,12 +93,20 @@ data_copy$Residuals <- Pedagogy_lm$residuals
 write.csv(data_copy, file = "ClassAssessment_copy.txt", row.names =T)
 
 
+anova_result <- aov(lm(Final ~ Semester, data = data))
+anova_result
+summary(anova_result)
+
+# anova_result <- anova(lm(value ~ group, data = df))
 
 ```
 
 
 
 ```{r}
+plot(data$Exam1, data$Final, type = "p", pch = 16, col = "blue", xlab = "X", ylab = "Y", main = "Scatter Plot with Line")
 
+# Add a line
+abline( lm(Final ~ Exam1, data = data), col = "red")
 ```
 
