@@ -16,16 +16,14 @@ library(lmtest) #bp test
 library(multcomp) #generalized linear hypothesis test
 library(nlme)
 library(tidyverse)
-data <- read_delim('ClassAssessment.txt')
+data_original <- read_delim('ClassAssessment.txt')
 data$Semester <- as.factor(data$Semester)
-
 
 ```
 
 
 ```{r }
-data
-data_copy <- data
+data <- data_original
 
 
 ggplot(data = data, mapping = aes(x = Exam1, y = Final)) +
@@ -156,7 +154,7 @@ ggplot()+geom_histogram(mapping=aes(x=standard))
 
 # GLS model
 ```{r}
-Pedagogy_gls <- gls(model= Final ~. , data= data, weights=varFixed(~ Exam1), method="ML")
+Pedagogy_gls <- gls(model= Final ~. , data= data, weights=varFixed(~ 1/), method="ML")
 
 summary(Pedagogy_gls)
 
