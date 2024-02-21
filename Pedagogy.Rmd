@@ -156,11 +156,8 @@ ggplot()+geom_histogram(mapping=aes(x=standard))
 
 # GLS model
 ```{r}
-<<<<<<< HEAD
 Pedagogy_gls <- gls(model= Final ~. , data= data, weights=varFixed(~ .), method="ML")
-=======
-Pedagogy_gls <- gls(model= Final ~. , data= data, weights=varFixed(form= ~ -Semester), method="ML")
->>>>>>> 8b29edbb945df9148936c80bcd47c529819a1dbe
+
 summary(Pedagogy_gls)
 
 ```
