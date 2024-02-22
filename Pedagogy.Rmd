@@ -17,15 +17,13 @@ library(multcomp) #generalized linear hypothesis test
 library(nlme)
 library(tidyverse)
 data_original <- read_delim('ClassAssessment.txt')
+data <- data_original
 data$Semester <- as.factor(data$Semester)
 
 ```
 
 
 ```{r }
-data <- data_original
-
-
 ggplot(data = data, mapping = aes(x = Exam1, y = Final)) +
   geom_point()+
   # geom_smooth( se = FALSE)+
@@ -102,10 +100,10 @@ summary(Pedagogy_lm)
 
 anova(Pedagogy_lm_reduced,Pedagogy_lm)
 
-data_copy$fittedVals <- Pedagogy_lm$fitted.values
-data_copy$Residuals <- Pedagogy_lm$residuals
+data$fittedVals <- Pedagogy_lm$fitted.values
+data$Residuals <- Pedagogy_lm$residuals
 
-write.csv(data_copy, file = "ClassAssessment_copy.txt", row.names =T)
+write.csv(data, file = "ClassAssessment_copy.txt", row.names =T)
 
 
 anova_result <- aov(lm(Final ~ Semester, data = data))
@@ -130,6 +128,16 @@ plot(data$Exam1, data$Final, type = "p", pch = 16, col = "blue", xlab = "X", yla
 # Add a line
 abline( lm(Final ~ Exam1, data = data), col = "red")
 ```
+
+# GLS model
+```{r}
+Pedagogy_gls <- gls(model= Final ~. , data= data, weights=varFixed(~ 1/NStudents), method="ML")
+
+summary(Pedagogy_gls)
+
+```
+
+
 # Section 3: Assumptions
 
 ### Linear
@@ -152,18 +160,6 @@ ggplot()+geom_histogram(mapping=aes(x=standard))
 
 
 
-# GLS model
-```{r}
-Pedagogy_gls <- gls(model= Final ~. , data= data, weights=varFixed(~ 1/), method="ML")
-
-summary(Pedagogy_gls)
-
-```
-
-
-```{r}
-?varFixed
-```
 
 
 
