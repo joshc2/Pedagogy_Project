@@ -131,7 +131,7 @@ abline( lm(Final ~ Exam1, data = data), col = "red")
 
 # GLS model
 ```{r}
-Pedagogy_gls <- gls(model= Final ~. , data= data, weights=varFixed(~ 1/NStudents), method="ML")
+Pedagogy_gls <- gls(model= Final ~. , data= data, weights=varFixed(~1/NStudents), method="ML")
 
 summary(Pedagogy_gls)
 
