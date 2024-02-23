@@ -143,7 +143,7 @@ summary(Pedagogy_gls)
 ### Linear
 ```{r, message = FALSE, out.width= "70%"}
 library(car)
-avPlots(Pedagogy_lm)
+avPlots(Pedagogy_lm,ask=F)
 ```
 * Looking at quantitative variables- approximately linear
 
@@ -151,8 +151,12 @@ avPlots(Pedagogy_lm)
 
 ### Normal
 ```{r, message = FALSE, out.width= "50%"}
+
 standard <- resid(object=Pedagogy_gls, type="pearson")
 ggplot()+geom_histogram(mapping=aes(x=standard))
+ks.test(standard, "pnorm")
+
+
 ```
 
 - It does appear approximately normal - ish
