@@ -76,12 +76,12 @@ ggplot(data, aes(x = Semester, y = Final, fill = Semester)) +
 ```
 
 ```{r}
+data_copy$id <- 1:30
 
 data_long <- data_copy %>%
   pivot_longer(
     cols = c(Exam1, Exam2, Exam3,HW,Quiz, Final) )
 
-data_copy$id <- 1:30
 
 data_long$factor_column <- factor(data_long$name)
 data_long$factor_column <- factor(data_long$name, levels = c("Exam1", "Exam2", "Exam3", "HW", "Quiz", "Final"))
