@@ -26,53 +26,79 @@ data$Semester <- as.factor(data$Semester)
 ```{r }
 ggplot(data = data, mapping = aes(x = Exam1, y = Final)) +
   geom_point()+
-  # geom_smooth( se = FALSE)+
+  geom_smooth( se = FALSE)+
   labs(title = "Boxplot of Exam1 by Final",
        x = "Exam1",
        y = "Final")
+```
 
 
+```{r }
 ggplot(data = data, mapping = aes(x = Exam2, y = Final)) +
   geom_point()+
-  # geom_smooth( se = FALSE)+
+  geom_smooth( se = FALSE)+
   labs(title = "Boxplot of Exam2 by Final",
        x = "Exam2",
        y = "Final")
 
+pairs(data[,3:6])
+data_test <- data[,3:6]
+
+# for (i in 1:(ncol(data_test) - 1)) {
+#   for (j in (i + 1):ncol(data_test)) {
+#     lm_model <- lm(data_test[, j] ~ data_test[, i])
+#     abline(lm_model, col = "red")
+#   }
+# }
+```
+
+
+```{r }
 ggplot(data = data, mapping = aes(x = Exam3, y = Final)) +
   geom_point()+
-  # geom_smooth( se = FALSE)+
+  geom_smooth( se = FALSE)+
   labs(title = "Boxplot of Exam3 by Final",
        x = "Exam3",
        y = "Final")
+```
 
+
+```{r }
 ggplot(data = data, mapping = aes(x = HW, y = Final)) +
   geom_point()+
-  # geom_smooth( se = FALSE)+
+  geom_smooth( se = FALSE)+
   labs(title = "Boxplot of HW by Final",
        x = "HW",
        y = "Final")
+```
 
+
+```{r }
 ggplot(data = data, mapping = aes(x = Quiz, y = Final)) +
   geom_point()+
-  # geom_smooth( se = FALSE)+
+  geom_smooth( se = FALSE)+
   labs(title = "Boxplot of Quiz by Final",
        x = "Quiz",
        y = "Final")
+```
 
 
+```{r }
 ggplot(data = data, mapping = aes(x = NStudents, y = Final)) +
   geom_point()+
   # geom_smooth( se = FALSE)+
   labs(title = "Boxplot of NStudents by Final",
        x = "NStudents",
        y = "Final")
+```
 
 
+```{r }
 ggplot(data, aes(x = Semester, y = Final, fill = Semester)) +
   geom_boxplot() +
   labs(x = "Semester", y = "Final", title = "Box Plot Example") +
   theme_minimal()
+
 ```
 
 ```{r}

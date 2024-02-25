@@ -1,0 +1,108 @@
+---
+title: "Pedagogy_Final_RCode"
+author: "Joshua Cabrera"
+date: "2024-02-25"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(tidyverse)
+library(caret)
+library(GGally) #pairs plot
+library(car) #added variable plots
+library(MASS) #standardized Residuals
+library(lmtest) #bp test
+library(multcomp) #generalized linear hypothesis test
+library(nlme)
+library(tidyverse)
+data  <- read_delim('ClassAssessment.txt')
+data_copy <- data
+data$Semester <- as.factor(data$Semester)
+```
+
+
+# Section 1 
+## A
+```{r}
+pairs(data[,3:6])
+pairs(data)
+
+
+
+```
+```{r}
+ggplot(data, aes(x = Semester, y = Final, fill = Semester)) +
+  geom_boxplot() +
+  labs(x = "Semester", y = "Final", title = "Box Plot Example") +
+  theme_minimal()
+
+```
+```{r}
+
+data_long <- data_copy %>%
+  pivot_longer(
+    cols = c(Exam1, Exam2, Exam3,HW,Quiz, Final) )
+
+data_copy$id <- 1:30
+
+data_long$factor_column <- factor(data_long$name)
+data_long$factor_column <- factor(data_long$name, levels = c("Exam1", "Exam2", "Exam3", "HW", "Quiz", "Final"))
+
+levels(data_long$factor_column)
+
+# head(data_long)
+ggplot(data_long, aes(x = name, y = value, group = id, colour = id))+
+  geom_point()+
+  geom_line()
+```
+
+## B
+Discuss any potential issues associated with the data that you should make sure to account for in 
+your analysis.
+
+Variance should be divided by NStudents, but I don't quite understand why.
+
+##C
+For any issues identified above, discuss the consequences of ignoring these issues in an analysis 
+along with any benefits gained by accounting for these issues.
+
+I don't understand why this is an issue.
+
+## D
+
+Variance divided by NStudents? Why?
+
+```{r}
+# summary(data)
+
+
+
+# Pedagogy_lm <- lm(Final ~ ., data = data)
+Pedagogy_lm <- lm(Final ~ ., data = data)
+summary(Pedagogy_lm)
+
+#Checking if our model should use NStudents and Semester
+Pedagogy_lm_reduced <- lm(Final ~ Exam1+Exam2+Exam3+HW+Quiz, data = data)
+summary(Pedagogy_lm_reduced)
+anova(Pedagogy_lm_reduced,Pedagogy_lm)
+
+#using reduced model and changing name
+Pedagogy_lm <- lm(Final ~ Exam1+Exam2+Exam3+HW+Quiz, data = data)
+summary(Pedagogy_lm)
+
+
+data_copy$fittedVals <- Pedagogy_lm$fitted.values
+data_copy$Residuals <- Pedagogy_lm$residuals
+
+# write.csv(data, file = "ClassAssessment_copy.txt", row.names =T)
+
+#none of the semesters performed better than other semesters
+anova_result <- aov(lm(Final ~ Semester, data = data))
+anova_result
+summary(anova_result)
+# anova_result <- anova(lm(value ~ group, data = df))
+
+```
+
+
