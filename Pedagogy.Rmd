@@ -76,12 +76,12 @@ ggplot(data, aes(x = Semester, y = Final, fill = Semester)) +
 ```
 
 ```{r}
-data_copy$id <- 1:30
 
 data_long <- data_copy %>%
   pivot_longer(
     cols = c(Exam1, Exam2, Exam3,HW,Quiz, Final) )
 
+data_copy$id <- 1:30
 
 data_long$factor_column <- factor(data_long$name)
 data_long$factor_column <- factor(data_long$name, levels = c("Exam1", "Exam2", "Exam3", "HW", "Quiz", "Final"))
@@ -119,7 +119,7 @@ data_copy$Residuals <- Pedagogy_lm$residuals
 
 # write.csv(data, file = "ClassAssessment_copy.txt", row.names =T)
 
-
+#none of the semesters performed better than other semesters
 anova_result <- aov(lm(Final ~ Semester, data = data))
 anova_result
 summary(anova_result)
@@ -148,7 +148,8 @@ Pedagogy_gls <- gls(model= Final ~ Exam1 + Exam2 + Exam3 + HW + Quiz, data= data
 
 summary(Pedagogy_gls)
 
-
+# summary(Pedagogy_gls)$r.squared
+#Rsquared doesn't work with heteroskedastic models
 # sigma-6.95417
 
 # summary(Pedagogy_gls)$tTable
@@ -163,7 +164,10 @@ summary(Pedagogy_gls)
 data_copy$heteroskedastic_std_residuals <- resid(object=Pedagogy_gls, type="pearson")
 data_copy$fittedVals <- fitted(Pedagogy_gls)
 
-
+TSS <- sum((dataPreds$Final-mean(dataPreds$Final))^2)
+ESS <- sum((dataPreds$Prediction-mean(dataPreds$Final))^2)
+#R-squared value
+ESS/TSS
 ```
 
 
